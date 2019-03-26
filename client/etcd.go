@@ -50,3 +50,17 @@ func Put(c *Client, k string, v string) error {
 	fmt.Println("key:", k, "value:", v)
 	return nil
 }
+
+func Diff(c *Client, k string, v string) (bool, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	res, err := c.client.Get(ctx, k)
+	cancel()
+	if err != nil {
+		return false, err
+	}
+	value := ""
+	for _, ev := range res.Kvs {
+		value = string(ev.Value)
+	}
+	return value != v, nil
+}
