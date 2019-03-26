@@ -12,7 +12,7 @@ func main() {
 
 	app.Name = "etcdir"
 	app.Usage = "Reflect directory structure to etcd"
-	app.Version = "0.0.1"
+	app.Version = "0.1.0"
 
 	app.Flags = []cli.Flag {
 		cli.StringFlag{
