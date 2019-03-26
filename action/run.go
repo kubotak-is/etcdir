@@ -25,7 +25,7 @@ func Run(c *cli.Context) error {
 		go func(path string) {
 			v, err := readFile(path)
 			if err != nil {
-				fmt.Println("Error: file3 open")
+				fmt.Println("Error: file open")
 			} else {
 				p := strings.Replace(path, dir, "", 1)
 				diff, err := client.Diff(cli, p, string(v))
