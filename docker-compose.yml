@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  etcd:
+    image: soyking/etcd-goreman:3.2.7
+    environment:
+      - CLIENT_ADDR=localhost
+    ports:
+      - "2379:2379"
