@@ -29,9 +29,12 @@ Read file contents and store values ​​in etcd using directory structure as k
 
 ### Development
 ```
-docker-compose up -d
+docker-compose up -d --build
 ```
-localhost:2379
+run etcdkeeper
+http://localhost:8080
+edit etcd host is `etcd:2379`
+
 
 #### Test
 TODO
