@@ -35,19 +35,9 @@ func Put(c *Client, k string, v string) error {
 	_, err := c.client.Put(ctx, k, v)
 	cancel()
 	if err != nil {
-		switch err {
-		case context.Canceled:
-			fmt.Println("ctx is canceled by another routine")
-		case context.DeadlineExceeded:
-			fmt.Println("ctx is attached with a deadline and it exceeded")
-		case rpctypes.ErrEmptyKey:
-			fmt.Println("client-side error: key is not provided")
-		default:
-			fmt.Println("bad cluster endpoints, which are not etcd servers")
-		}
-		return err
+		return errorCase(err)
 	}
-	fmt.Println("key:", k, "value:", v)
+	fmt.Println("key:", k)
 	return nil
 }
 
@@ -63,4 +53,28 @@ func Diff(c *Client, k string, v string) (bool, error) {
 		value = string(ev.Value)
 	}
 	return value != v, nil
+}
+
+func Delete(c *Client, k string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	_, err := c.client.Delete(ctx, k, clientv3.WithPrefix())
+	cancel()
+	if err != nil {
+		return errorCase(err)
+	}
+	return nil
+}
+
+func errorCase(err error) error {
+	switch err {
+	case context.Canceled:
+		fmt.Println("ctx is canceled by another routine")
+	case context.DeadlineExceeded:
+		fmt.Println("ctx is attached with a deadline and it exceeded")
+	case rpctypes.ErrEmptyKey:
+		fmt.Println("client-side error: key is not provided")
+	default:
+		fmt.Println("bad cluster endpoints, which are not etcd servers")
+	}
+	return err
 }
