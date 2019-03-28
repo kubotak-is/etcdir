@@ -4,19 +4,16 @@ import (
 	"strings"
 	"fmt"
 	"github.com/kubotak-is/etcdir/client"
-	"github.com/urfave/cli"
 )
 
-func Run(c *cli.Context) error {
-	nodes := c.String("nodes")
-	cli, err := client.New(strings.Split(nodes, ","))
+func Run(n string, d string) error {
+	cli, err := client.New(strings.Split(n, ","))
 	defer cli.Close()
 	if err != nil {
 		panic(err)
 	}
 
-	dir := c.String("dir")
-	files := dirwalk(dir)
+	files := dirwalk(d)
 
 	ch := make(chan string)
 
@@ -27,7 +24,7 @@ func Run(c *cli.Context) error {
 			if err != nil {
 				fmt.Println("Error: file open")
 			} else {
-				p := strings.Replace(path, dir, "", 1)
+				p := strings.Replace(path, d, "", 1)
 				diff, err := client.Diff(cli, p, string(v))
 				if diff {
 					// Update only when there is a difference

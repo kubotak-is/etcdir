@@ -19,7 +19,11 @@ func main() {
 			Name: "put",
 			Aliases: []string{"p"},
 			Usage: "Update by difference",
-			Action: action.Run,
+			Action: func (c *cli.Context) error {
+				nodes := c.String("nodes")
+				dir := c.String("dir")
+				return action.Run(nodes, dir)
+			},
 			Flags: []cli.Flag {
 				cli.StringFlag{
 					Name: "nodes, n",
@@ -36,7 +40,11 @@ func main() {
 			Name: "delete",
 			Aliases: []string{"d"},
 			Usage: "Delete all value",
-			Action: action.Del,
+			Action: func (c *cli.Context) error {
+				nodes := c.String("nodes")
+				key := c.String("key")
+				return action.Del(nodes, key)
+			},
 			Flags: []cli.Flag {
 				cli.StringFlag{
 					Name: "nodes, n",

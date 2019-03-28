@@ -1,23 +1,16 @@
 package action
 
 import (
-	"strings"
 	"fmt"
 	"github.com/kubotak-is/etcdir/client"
-	"github.com/urfave/cli"
+	"strings"
 )
 
-func Del(c *cli.Context) error {
-	nodes := c.String("nodes")
-	cli, err := client.New(strings.Split(nodes, ","))
+func Del(n string, k string) error {
+	cli, err := client.New(strings.Split(n, ","))
 	defer cli.Close()
 	if err != nil {
 		panic(err)
-	}
-
-	k := c.String("key")
-	if k == "" {
-		k = "/"
 	}
 
 	err = client.Delete(cli, k)
