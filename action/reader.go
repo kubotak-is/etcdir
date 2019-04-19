@@ -9,7 +9,7 @@ import (
 func dirwalk(dir string) []string {
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
-		panic(err)
+		return []string{}
 	}
 
 	var paths []string
